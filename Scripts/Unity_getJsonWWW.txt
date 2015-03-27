@@ -1,0 +1,32 @@
+using UnityEngine;
+using System.Collections;
+using SimpleJSON;
+
+public class simpleRequest : MonoBehaviour {
+
+    IEnumerator SendRequest()
+    {
+        WWW request = new WWW("http://localhost:9999/post/results.json");
+
+
+        yield return request;
+
+        if (request.error == null || request.error == "")
+        {
+
+            var N = JSON.Parse(request.text);
+
+            Debug.Log(N["projects"][0]["name"]);
+
+        }
+        else
+        {
+            Debug.Log("WWW error: " + request.error);
+        }
+    }
+
+    void Start()
+    {
+        StartCoroutine(SendRequest());
+    }
+}
